@@ -1,5 +1,6 @@
 class DoiterCommands {
-    constructor(tellIt, sayGoodBye, listener) {
+    constructor(tellIt, sayGoodBye, listener, socket) {
+        this.socket = socket;
         this.listener = listener;
         this.tellIt = tellIt;
         this.sayGoodBye = sayGoodBye;
@@ -18,7 +19,8 @@ class DoiterCommands {
         this.whoAreYou = this.whoAreYou.bind(this);
         this.joke = this.joke.bind(this);
         this.sayMyName = this.sayMyName.bind(this);
-
+        this.turnOn = this.turnOn.bind(this);
+        this.tunrOff = this.tunrOff.bind(this);
 
 
         this.Commands = {
@@ -28,7 +30,9 @@ class DoiterCommands {
             'jak masz na imię': this.whoAreYou,
             'mam na imię *tag': this.myNameIs,
             '(powiedz) dowcip': this.joke,
-            'jak mam na imię': this.sayMyName
+            'jak mam na imię': this.sayMyName,
+            'włącz *tag': this.turnOn,
+            'wyłącz *tag': this.tunrOff
         };
     }
 
@@ -76,9 +80,21 @@ class DoiterCommands {
     sayMyName() {
         if (this.username != ' ') {
             this.tellIt("Masz na imię " + this.username);
-        }else{
+        } else {
             this.tellIt("Jeszcze się nie podzieliłeś ze mną swoim imieniem. Przedstaw się proszę.");
         }
+    }
+
+    turnOn(device) {
+        document.getElementById(device).checked = true;
+        this.socket.emit('turnOn', device);
+        this.tellIt("włączono " + device);
+    }
+
+    tunrOff(device) {
+        document.getElementById(device).checked = false;
+        this.socket.emit('turnOff', device);
+        this.tellIt("wyłączono " + device);
     }
 
 }

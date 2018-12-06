@@ -1,7 +1,8 @@
 import * as debug from 'debug';
 import * as http from 'http';
-
+import Io from './io';
 import Server from './server';
+
 
 debug('ts-express:server');
 
@@ -14,6 +15,10 @@ const server = http.createServer(Server);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+const io = new Io(server);
+
+io.startIo();
 
 function normalizePort(val: number|string): number|string|boolean {
     const port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
@@ -42,3 +47,5 @@ function onListening(): void {
     const bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
     debug(`Listening on ${bind}`);
 }
+
+
