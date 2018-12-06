@@ -41,5 +41,10 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 
 `(to wszystko) dziękuję` to stop capture commands
 
+## commands to control gpio:
+
+`włącz (urządzenie)`
+
+`wyłącz (urządzenie)`
 
  
